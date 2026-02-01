@@ -1,11 +1,10 @@
 site_name: Ops Journal
-docs_dir: documentation
+docs_dir: journal
 
 theme:
   name: material
 
 nav:
-  - Home: ops_journal_tracksuit_hopper_readme.md
-  - Roadmap: ops_journal_12_week_roadmap_data.md
-  - Week 1: ops_journal_week_1_concretization.md
+  - Home: README.md
+  - Week 1: week-01.md
 
