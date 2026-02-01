@@ -3,3 +3,7 @@ resources:
 
 patches:
   - path: replicas.yaml
+
+images:
+  - name: ops-journal
+    newTag: "0.2"
