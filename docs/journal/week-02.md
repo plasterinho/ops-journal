@@ -1,6 +1,4 @@
-# ops_journal_week_02_gitops_and_environments.md
-
-## Week 02 --- GitOps & Environment Modeling
+# Week 02 --- GitOps & Environment Modeling
 
 ### Status
 
@@ -121,6 +119,8 @@ Once both Applications were active:
 
 Argo CD showed: - successful sync attempts - immediate drift detection -
 continuous reconciliation loops
+
+![ArgoCD conflict](evidence/week-02/argocd-conflict.png)
 
 This occurred because: - two Applications declared **different desired
 states** - both attempted to own the same resources

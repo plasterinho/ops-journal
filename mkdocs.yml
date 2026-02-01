@@ -1,10 +1,37 @@
 site_name: Ops Journal
-docs_dir: journal
+docs_dir: docs
 
 theme:
   name: material
 
 nav:
   - Home: README.md
-  - Week 01: week-01.md
-  - Week 02: week-02.md
+
+  - Documentation:
+      - Overview: documentation/README.md
+      - Platform fundamentals:
+          - Platform control model: documentation/platform-control-model.md
+          - GitOps model: documentation/gitops_model.md
+      - Roadmap:
+          - 12-week learning track: documentation/ops_journal_12_week_roadmap_data.md
+      - Historical context:
+          - Week 01 concretization: documentation/ops_journal_week_1_concretization.md
+          - Tracksuit Hopper notes: documentation/ops_journal_tracksuit_hopper_readme.md
+      - Runbooks:
+          - Week 01 bootstrap: documentation/week-01/runbook.md
+
+  - Journal:
+      - Overview: journal/README.md
+      - Week 01: journal/week-01.md
+      - Week 02: journal/week-02.md
+
+  - Evidence:
+      - Week 01:
+          - Docker image: journal/evidence/week-01/docker-image.png
+          - Docker UI: journal/evidence/week-01/docker-ui.png
+          - Minikube images: journal/evidence/week-01/minikube-docker-images.png
+          - Minikube UI: journal/evidence/week-01/minikube-ui.png
+          - MkDocs UI: journal/evidence/week-01/mkdocs-ui.png
+          - Repo tree: journal/evidence/week-01/repo-tree.png
+      - Week 02:
+          - Argo CD conflict: journal/evidence/week-02/argocd-conflict.png
