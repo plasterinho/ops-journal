@@ -8,7 +8,7 @@ spec:
 
   source:
     repoURL: 'https://github.com/plasterinho/ops-journal.git'
-    targetRevision: HEAD
+    targetRevision: week3-repo-v2
     path: environments/local
 
   destination:
