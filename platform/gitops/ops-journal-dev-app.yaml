@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/plasterinho/ops-journal.git
     targetRevision: HEAD
-    path: apps/ops-journal/overlays/dev
+    path: workloads/ops-journal/overlays/dev
 
   destination:
     server: https://kubernetes.default.svc

@@ -206,3 +206,10 @@ The repository evolves week by week. Earlier weeks are intentionally simpler and
 
 This repository is a living system.
 Expect evolution, refactoring, and occasional intentional destruction in the name of learning.
+
+## Repo evolution
+
+* Week 1–2: flat / experimental structure
+* Week 3: platform-oriented GitOps layout (v2)
+
+Old paths may still exist temporarily during migration.
