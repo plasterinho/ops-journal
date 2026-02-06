@@ -1,8 +1,8 @@
 # Week 02 --- GitOps & Environment Modeling
 
-### Status
+## Status
 
-**Completed, with intentional conflict observed**
+**Completed**, with intentional conflict observed
 
 ------------------------------------------------------------------------
 
@@ -10,11 +10,11 @@
 
 At the beginning of Week 02:
 
--   A local Kubernetes cluster was running
--   The `ops-journal` application was deployed imperatively
--   Platform components were installed manually
--   There was no GitOps controller
--   No environment separation existed
+* A local Kubernetes cluster was running
+* The `ops-journal` application was deployed imperatively
+* Platform components were installed manually
+* There was no GitOps controller
+* No environment separation existed
 
 The goal of this week was not to add features, but to change **how the
 system is operated**.
@@ -25,10 +25,10 @@ system is operated**.
 
 ### GitOps controller
 
--   Argo CD was installed into the `argocd` namespace
--   No ingress or external exposure was configured
--   Access was done via port-forwarding
--   Initially, Argo CD managed no workloads
+* Argo CD was installed into the `argocd` namespace
+* No ingress or external exposure was configured
+* Access was done via port-forwarding
+* Initially, Argo CD managed no workloads
 
 This established a control plane that: - is not on the request path -
 continuously enforces desired state - reacts to drift instead of manual
@@ -52,6 +52,14 @@ Key decisions: - Application manifests are owned by the application
 structure - Argo CD Application CRs are treated as platform
 configuration - GitOps configuration is not mixed with application YAML
 
+> ⚠️ Structural note (added in Week 3)
+>
+> At the time of Week 02, application manifests lived under `apps/`.
+> In Week 03, the repository was restructured and applications were moved to
+> `workloads/` to reflect a platform-oriented GitOps model.
+>
+> References to `apps/` below reflect the repository state at that time.
+
 ------------------------------------------------------------------------
 
 ### Kustomize
@@ -59,10 +67,10 @@ configuration - GitOps configuration is not mixed with application YAML
 Kustomize was introduced as a **YAML composition tool**, not a
 deployment mechanism.
 
--   `base` defines the canonical application manifests
--   `overlays` define environment-specific differences
--   Rendering was validated locally using `kubectl kustomize`
--   Deprecated syntax was replaced with the modern `patches` syntax
+* `base` defines the canonical application manifests
+* `overlays` define environment-specific differences
+* Rendering was validated locally using `kubectl kustomize`
+* Deprecated syntax was replaced with the modern `patches` syntax
 
 Kustomize's role is limited to: - assembling manifests - making
 differences explicit - producing plain Kubernetes YAML for Argo CD to
@@ -74,10 +82,10 @@ consume
 
 Two environments were modeled:
 
--   **dev**
-    -   1 replica
--   **staging**
-    -   2 replicas
+* **dev**
+  * 1 replica
+* **staging**
+  * 2 replicas
 
 This difference was implemented exclusively via overlay patches.\
 No changes were made to base manifests.
@@ -88,8 +96,8 @@ No changes were made to base manifests.
 
 Two Argo CD Applications were created:
 
--   `ops-journal-dev`
--   `ops-journal-staging`
+* `ops-journal-dev`
+* `ops-journal-staging`
 
 Both Applications: - point to the same Git repository - target the same
 Kubernetes cluster - target the same namespace - manage the same
@@ -103,9 +111,9 @@ This setup was intentional.
 
 ### Drift correction
 
--   Manual changes such as scaling replicas were reverted automatically
--   Deleted resources were recreated
--   Git was confirmed as the source of truth
+* Manual changes such as scaling replicas were reverted automatically
+* Deleted resources were recreated
+* Git was confirmed as the source of truth
 
 ------------------------------------------------------------------------
 
@@ -113,9 +121,9 @@ This setup was intentional.
 
 Once both Applications were active:
 
--   The cluster consistently showed **2 replicas**
--   `ops-journal-staging` was **Synced / Healthy**
--   `ops-journal-dev` was **OutOfSync / Progressing**
+* The cluster consistently showed **2 replicas**
+* `ops-journal-staging` was **Synced / Healthy**
+* `ops-journal-dev` was **OutOfSync / Progressing**
 
 Argo CD showed: - successful sync attempts - immediate drift detection -
 continuous reconciliation loops
@@ -134,37 +142,37 @@ This was a valid but unsafe architecture.
 
 ### Git unavailable
 
--   The cluster continues running on the last known desired state
--   No new changes or rollbacks are possible
+* The cluster continues running on the last known desired state
+* No new changes or rollbacks are possible
 
 ### Argo CD unavailable
 
--   Applications keep running
--   Desired state is no longer enforced
--   Manual changes persist
+* Applications keep running
+* Desired state is no longer enforced
+* Manual changes persist
 
 ### Manual deletion of resources
 
--   Resources are recreated only if Argo CD is running
+* Resources are recreated only if Argo CD is running
 
 ------------------------------------------------------------------------
 
 ## Key learnings
 
--   GitOps enforces desired state, it does not define ownership
--   Multiple sources of truth are possible unless prevented by design
--   Environments are **boundaries**, not labels
--   Sharing a namespace across environments is unsafe
--   GitOps makes architectural mistakes visible instead of hiding them
+* GitOps enforces desired state, it does not define ownership
+* Multiple sources of truth are possible unless prevented by design
+* Environments are **boundaries**, not labels
+* Sharing a namespace across environments is unsafe
+* GitOps makes architectural mistakes visible instead of hiding them
 
 ------------------------------------------------------------------------
 
 ## Why this setup is unsafe for production
 
--   Controllers can fight over the same resource
--   Last-writer-wins behavior is non-deterministic
--   OutOfSync states can become permanent
--   Human intervention is required to infer intent
+* Controllers can fight over the same resource
+* Last-writer-wins behavior is non-deterministic
+* OutOfSync states can become permanent
+* Human intervention is required to infer intent
 
 This is acceptable for learning.\
 It is not acceptable for production.
