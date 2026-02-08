@@ -98,9 +98,11 @@ Meta-observation:
 * Removed per-app Argo CD Application manifests
 * Ensured single ownership of Kubernetes resources
 
+![Single "local" instance of OpsJournal](evidence/week-03/single-instance-local.png)
+
 Outcome:
 * No reconciliation fights
-* `local` envirojnment became the sole owner
+* `local` environment became the sole owner
 * Cluster state and repo state aligned 1:1
 
 -------------------------------
@@ -113,6 +115,8 @@ Outcome:
 * Confirmed automatic reconciliation after manual changes:
   * ran `kubectl scale deployment ops-journal --replicas=2`
   * observed Argo CD revert to a single replica
+
+![Terminating a manually created replica](evidence/week-03/terminating-manual-pod.png)
 
 -------------------------------
 
