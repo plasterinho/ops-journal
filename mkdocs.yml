@@ -24,6 +24,7 @@ nav:
       - Overview: journal/README.md
       - Week 01: journal/week-01.md
       - Week 02: journal/week-02.md
+      - Week 03: journal/week-03.md
 
   - Evidence:
       - Week 01:
@@ -35,3 +36,6 @@ nav:
           - Repo tree: journal/evidence/week-01/repo-tree.png
       - Week 02:
           - Argo CD conflict: journal/evidence/week-02/argocd-conflict.png
+      - Week 03:
+          - Single local instance: journal/evidence/week-03/single-instance-local.png
+          - Terminating manually created pod: journal/evidence/week-03/terminating-manual-pod.png

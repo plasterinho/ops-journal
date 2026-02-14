@@ -3,12 +3,14 @@
 ## Context
 
 Starting point (end of Week 02):
+
 * Applications deployed via Argo CD
 * Per-application Argo CD Applications (ops-journal-dev, ops-journal-staging)
 * Repository structure centered around apps/
 * Manual reconciliation and structural drift possible
 
 Goal for Week 03:
+
 * Move from “Argo CD is installed” to “GitOps is the control plane”
 * Introduce environment-level ownership
 * Make Git the only source of truth for workloads
@@ -19,15 +21,18 @@ Goal for Week 03:
 ### From per-app GitOps to per-environment GitOps
 
 Old mental model:
+
 * One Argo CD Application per workload
 * Apps decide where and how they deploy
 
 New mental model:
+
 * One Argo CD Application per environment
 * Environments decide what runs
 * Workloads are passive and environment-agnostic
 
 Reasoning:
+
 * Clear ownership boundaries
 * Avoid split-brain reconciliation
 * Mirrors real platform-team vs app-team responsibilities
@@ -37,6 +42,7 @@ Reasoning:
 ## Repository Restructure (v2)
 
 Structural changes
+
 * apps/ → deprecated
 * workloads/ introduced as the home for application manifests
 * environments/ introduced as composition and intent
@@ -56,6 +62,7 @@ Key insight:
 * No raw Kubernetes manifests in the environment layer
 
 Important Kustomize rule learned:
+
 * Files are resources
 * Directories are composition
 * Only kustomization.yaml is an entry point
@@ -74,6 +81,7 @@ Several errors occurred here, all due to misunderstanding this rule.
 * Automated sync with prune and self-heal enabled
 
 Critical learning:
+
 * `targetRevision: HEAD` means *default branch*, not “current work”
 * Argo CD failures are deterministic and reproducible with `kustomize build`
 
@@ -101,6 +109,7 @@ Meta-observation:
 ![Argo CD UI showing local environment as the sole owner of ops-journal deployment with no competing applications, demonstrating single-source-of-truth reconciliation](evidence/week-03/single-instance-local.png)
 
 Outcome:
+
 * No reconciliation fights
 * `local` environment became the sole owner
 * Cluster state and repo state aligned 1:1
@@ -113,8 +122,8 @@ Outcome:
 * Verified Argo CD Application spec via Kubernetes CRD
 * Confirmed reconciliation without manual `kubectl apply`
 * Confirmed automatic reconciliation after manual changes:
-  * ran `kubectl scale deployment ops-journal --replicas=2`
-  * observed Argo CD revert to a single replica
+    * ran `kubectl scale deployment ops-journal --replicas=2`
+    * observed Argo CD revert to a single replica
 
 ![Argo CD UI showing a pod terminating after manual scaling, with the deployment reverting to its declarative state of one replica](evidence/week-03/terminating-manual-pod.png)
 
@@ -123,10 +132,12 @@ Outcome:
 ## What Changed Conceptually
 
 Before Week 03:
+
 * Git as deployment input
 * Argo CD as a delivery tool
 
 After Week 03:
+
 * Git as the control plane
 * Argo CD as an enforcement mechanism
 * Environments as first-class concepts
@@ -134,6 +145,7 @@ After Week 03:
 -------------------------------
 
 ## What This Unlocks Next
+
 * Adding `staging` and `prod` environments predictably
 * Promotion via Git, not copy-paste
 * Clear platform/app team boundaries
@@ -142,6 +154,7 @@ After Week 03:
 -------------------------------
 
 ## Open Questions / Future work
+
 * Align `dev` vs `local` naming
 * Namespace-per-environment
 * Branch-per-environment vs directory-per-environment
@@ -157,4 +170,10 @@ In Week 03 I moved from "using Argo CD" to actually operating with GitOps by res
 
 ## If I had to do this again
 
-If I were starting Week 03 again, I would begin by clearly deciding **who owns what** before touching any YAML: environments own reconciliation, workloads are passive inputs, and GitOps applications should map to environments, not apps. I would wire a single environment end-to-end first (including Argo CD, Kustomize composition, and branch pinning) before attempting multiple environments, and I would verify every Argo CD error locally with `kustomize build` instead of debugging in the UI. I would also explicitly pin Argo CD to a non-default branch from the start to avoid confusion between “work in progress” and “current truth”, and delete legacy GitOps applications as soon as a new ownership model is introduced to prevent split-brain reconciliation. Finally, I would accept that most of the difficulty comes not from Kubernetes itself, but from learning how tools enforce rules exactly as specified, and treat those failures as signals that the platform model is becoming real.
+If I were starting Week 03 again, I would begin by clearly deciding **who owns what** before touching any YAML:
+
+* **environments** own reconciliation,
+*  **workloads** are passive inputs,
+* and **GitOps applications** should map to environments, not apps.
+
+I would wire a single environment end-to-end first (including Argo CD, Kustomize composition, and branch pinning) before attempting multiple environments, and I would verify every Argo CD error locally with `kustomize build` instead of debugging in the UI. I would also explicitly pin Argo CD to a non-default branch from the start to avoid confusion between “work in progress” and “current truth”, and delete legacy GitOps applications as soon as a new ownership model is introduced to prevent split-brain reconciliation. Finally, I would accept that most of the difficulty comes not from Kubernetes itself, but from learning how tools enforce rules exactly as specified, and treat those failures as signals that the platform model is becoming real.
