@@ -5,6 +5,5 @@ patches:
   - path: replicas.yaml
 
 images:
-  - name: ghcr.io/plasterinho/ops-journal
+  - name: ops-journal
     newTag: "sha-cefdfba"
-    pullPolicy: Always

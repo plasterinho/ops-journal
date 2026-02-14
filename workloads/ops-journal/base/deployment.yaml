@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: ops-journal
-          image: ops-journal:0.1
+          image: ghcr.io/plasterinho/ops-journal
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
-
