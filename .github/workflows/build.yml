@@ -39,3 +39,35 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
+
+  promote:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout infra repo
+        uses: actions/checkout@v4
+        with:
+          repository: plasterinho/cluster-config
+          token: ${{ secrets.INFRA_REPO_TOKEN}}
+          path: cluster-config
+
+      - name: Update image tag
+        run: |
+          SHORT_SHA=${GITHUB_SHA::7}
+          IMAGE_TAG="sha-${SHORT_SHA}"
+
+          sed -i "s/newTag: .*/newTag: ${IMAGE_TAG}/" cluster-config/apps/ops-journal/overlays/dev/kustomization.yaml
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.INFRA_REPO_TOKEN }}
+          path: cluster-config
+          commit-message: "chore: deploy ${GITHUB_SHA::7}"
+          branch: deploy-${{ github.sha }}
+          title: "Deploy sha-${{ github.sha }}"
+          body: "Automated deployment of image sha-${{ github.sha }}."
+          base: main
+          
