@@ -1,2 +1,6 @@
 resources:
   - ../../base
+
+images:
+  - name: ghcr.io/plasterinho/ops-journal
+    newTag: sha-19b263d
