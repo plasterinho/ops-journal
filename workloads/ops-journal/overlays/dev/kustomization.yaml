@@ -1,9 +1,0 @@
-resources:
-  - ../../base
-
-patches:
-  - path: replicas.yaml
-
-images:
-  - name: ghcr.io/plasterinho/ops-journal
-    newTag: sha-3eccfd3
