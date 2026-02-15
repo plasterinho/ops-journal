@@ -6,4 +6,4 @@ patches:
 
 images:
   - name: ghcr.io/plasterinho/ops-journal
-    newTag: sha-cefdfba
+    newTag: sha=3e0f3b5
