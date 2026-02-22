@@ -53,6 +53,13 @@ jobs:
           token: ${{ secrets.INFRA_REPO_TOKEN}}
           path: cluster-config
 
+      - name: Debug directory structure
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Tree:"
+          ls -R
+
       - name: Update image tag
         run: |
           SHORT_SHA=${GITHUB_SHA::7}
