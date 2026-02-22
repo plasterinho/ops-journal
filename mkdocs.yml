@@ -25,6 +25,7 @@ nav:
       - Week 01: journal/week-01.md
       - Week 02: journal/week-02.md
       - Week 03: journal/week-03.md
+      - Week 04: journal/week-04.md
 
   - Evidence:
       - Week 01:
@@ -39,3 +40,5 @@ nav:
       - Week 03:
           - Single local instance: journal/evidence/week-03/single-instance-local.png
           - Terminating manually created pod: journal/evidence/week-03/terminating-manual-pod.png
+      - Week 04:
+          - Architecture diagram: journal/evidence/week-04/architecture-diagram.png
