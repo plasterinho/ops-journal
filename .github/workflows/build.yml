@@ -50,7 +50,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: plasterinho/cluster-config
-          token: ${{ secrets.INFRA_REPO_TOKEN}}
+          token: ${{ secrets.PBOT_INFRA_TOKEN}}
           path: cluster-config
 
       - name: Debug directory structure
@@ -72,7 +72,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.INFRA_REPO_TOKEN }}
+          token: ${{ secrets.PBOT_INFRA_TOKEN }}
           path: cluster-config
           commit-message: "chore: deploy ${GITHUB_SHA::7}"
           branch: deploy-${{ github.sha }}
