@@ -65,7 +65,9 @@ jobs:
           SHORT_SHA=${GITHUB_SHA::7}
           IMAGE_TAG="sha-${SHORT_SHA}"
 
-          sed -i "s/newTag: .*/newTag: ${IMAGE_TAG}/" cluster-config/apps/ops-journal/overlays/dev/kustomization.yaml
+          INFRA_PATH="cluster-config/gitops/apps/ops-journal/overlays/dev/kustomization.yaml"
+
+          sed -i "s/newTag: .*/newTag: ${IMAGE_TAG}/" "${INFRA_PATH}"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
