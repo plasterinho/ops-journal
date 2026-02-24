@@ -1,2 +1,4 @@
-mkdocs
-mkdocs-material
+# Pinned to MkDocs 1.x intentionally.
+# Migration to successor (e.g., Zensical) deferred.
+mkdocs==1.6.1
+mkdocs-material==9.7.1

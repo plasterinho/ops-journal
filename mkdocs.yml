@@ -42,3 +42,5 @@ nav:
           - Terminating manually created pod: journal/evidence/week-03/terminating-manual-pod.png
       - Week 04:
           - Architecture diagram: journal/evidence/week-04/architecture-diagram.png
+      - Week 05:
+          - Only the dev instance updates automatically: journal/evidence/week-05/dev-instance-updates.png
