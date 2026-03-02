@@ -25,6 +25,7 @@ nav:
       - Week 02: journal/week-02.md
       - Week 03: journal/week-03.md
       - Week 04: journal/week-04.md
+      - Week 05: journal/week-05.md
 
   - Evidence:
       - Week 01:
@@ -43,3 +44,6 @@ nav:
           - Architecture diagram: journal/evidence/week-04/architecture-diagram.png
       - Week 05:
           - Only the dev instance updates automatically: journal/evidence/week-05/dev-instance-updates.png
+          - Merging a PR created by the bot: journal/evidence/week-05/merge-commit.png
+          - Validation of journal files now works: journal/evidence/week-05/validation-works.png
+          - All journal files are valid: journal/evidence/week-05/all-journal-files-now-updated.png

@@ -34,7 +34,7 @@ function validateFile(filePath) {
     errors.push("Missing '## Evidence' section");
   } else {
     const evidenceSection = content.split("## Evidence")[1];
-    if (!evidenceSection || !evidenceSection.includes("- ")) {
+    if (!evidenceSection || (!evidenceSection.includes("- ") && !evidenceSection.includes("* "))) {
       errors.push("Evidence section must contain at least one bullet");
     }
   }

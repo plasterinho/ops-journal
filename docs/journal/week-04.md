@@ -4,18 +4,18 @@
 
 At the beginning of Week 04, the system looked like this:
 
--   App code and Kubernetes manifests lived in the same repository.
--   GitHub Actions built the Docker image.
--   CI updated `kustomization.yaml` directly.
--   ArgoCD auto-synced from the same repository.
--   Every commit to `main` resulted in an automatic deployment.
+- App code and Kubernetes manifests lived in the same repository.
+- GitHub Actions built the Docker image.
+- CI updated `kustomization.yaml` directly.
+- ArgoCD auto-synced from the same repository.
+- Every commit to `main` resulted in an automatic deployment.
 
 This was fully functional **Continuous Deployment**. It worked, but it wasn't realistic.
 
 The app repository owned both:
 
--   Product (code)
--   Logistics (deployment state)
+- Product (code)
+- Logistics (deployment state)
 
 That boundary felt wrong.
 
@@ -30,10 +30,10 @@ The answer became obvious: no.
 
 In real systems:
 
--   Product teams build artifacts.
--   Platform/ops control deployment state.
--   Deployment requires approval.
--   Git is the contract.
+- Product teams build artifacts.
+- Platform/ops control deployment state.
+- Deployment requires approval.
+- Git is the contract.
 
 That realization triggered the biggest architectural shift so far.
 
@@ -43,11 +43,11 @@ That realization triggered the biggest architectural shift so far.
 
 Before splitting repositories, we stabilized:
 
--   Docker image built in GitHub Actions
--   Images pushed to GHCR
--   Kustomize overlay injected immutable SHA tag
--   ArgoCD reconciled automatically
--   No manual image loading in Minikube
+- Docker image built in GitHub Actions
+- Images pushed to GHCR
+- Kustomize overlay injected immutable SHA tag
+- ArgoCD reconciled automatically
+- No manual image loading in Minikube
 
 At that point, the system was deterministic and fully declarative.
 
@@ -96,8 +96,8 @@ CI stopped mutating its own repository.
 
 The app repository now only:
 
--   Builds images
--   Pushes to GHCR
+- Builds images
+- Pushes to GHCR
 
 Nothing else. Deployment intent moved entirely to `cluster-config`.
 
@@ -107,11 +107,11 @@ Nothing else. Deployment intent moved entirely to `cluster-config`.
 
 Instead of auto-deploying:
 
-1.  CI builds image.
-2.  CI opens Pull Request in `cluster-config`.
-3.  Human approves PR.
-4.  Merge triggers Argo reconciliation.
-5.  Deployment rolls.
+1. CI builds image.
+2. CI opens Pull Request in `cluster-config`.
+3. Human approves PR.
+4. Merge triggers Argo reconciliation.
+5. Deployment rolls.
 
 This changed the model from:
 
@@ -123,10 +123,10 @@ to:
 
 This was immediately visible:
 
--   PR appeared in `cluster-config`
--   Argo did nothing
--   After merge → Argo synced instantly
--   Deployment rolled smoothly
+- PR appeared in `cluster-config`
+- Argo did nothing
+- After merge → Argo synced instantly
+- Deployment rolled smoothly
 
 That moment validated the design.
 
@@ -160,11 +160,11 @@ The system now has proper responsibility boundaries.
 
 ## Lessons Learned
 
--   Kustomize image matching is strict and string-based.
--   YAML structure errors in GitHub Actions are unforgiving.
--   Argo may recreate ReplicaSets when Application spec changes.
--   Self-mutating repos are convenient but architecturally fragile.
--   Splitting repos clarifies ownership and control.
+- Kustomize image matching is strict and string-based.
+- YAML structure errors in GitHub Actions are unforgiving.
+- Argo may recreate ReplicaSets when Application spec changes.
+- Self-mutating repos are convenient but architecturally fragile.
+- Splitting repos clarifies ownership and control.
 
 ------------------------------------------------------------------------
 
@@ -189,15 +189,16 @@ flowchart TD
 ## Evidence (Flowchart screenshot)
 
 ![Architecture diagram for week 04 showing system components, their relationships, and data flow. The diagram illustrates the overall infrastructure design and integration points for the week's development work.](evidence/week-04/architecture-diagram.png)
+
 ------------------------------------------------------------------------
 
 ## Maturity Level After Week 04
 
--   Immutable image builds
--   Registry-backed deployments
--   Multi-repo GitOps model
--   Approval-gated promotion
--   Fully declarative cluster state
+- Immutable image builds
+- Registry-backed deployments
+- Multi-repo GitOps model
+- Approval-gated promotion
+- Fully declarative cluster state
 
 The system now resembles a realistic enterprise GitOps setup rather than
 a learning demo.
@@ -208,9 +209,9 @@ a learning demo.
 
 Potential next steps:
 
--   Multi-environment promotion (dev → staging → prod)
--   Branch protection rules
--   Argo sync policies per environment
--   Infrastructure hardening
+- Multi-environment promotion (dev → staging → prod)
+- Branch protection rules
+- Argo sync policies per environment
+- Infrastructure hardening
 
 Week 04 marks the transition from experimentation to platform design.
