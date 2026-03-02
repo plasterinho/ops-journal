@@ -88,8 +88,7 @@ Two environments were modeled:
 * **staging**
   * 2 replicas
 
-This difference was implemented exclusively via overlay patches.\
-No changes were made to base manifests.
+This difference was implemented exclusively via overlay patches. No changes were made to base manifests.
 
 ------------------------------------------------------------------------
 
@@ -136,8 +135,7 @@ continuous reconciliation loops
 This occurred because: - two Applications declared **different desired
 states** - both attempted to own the same resources
 
-No misconfiguration occurred.\
-This was a valid but unsafe architecture.
+No misconfiguration occurred. This was a valid but unsafe architecture.
 
 ------------------------------------------------------------------------
 
@@ -177,15 +175,13 @@ This was a valid but unsafe architecture.
 * OutOfSync states can become permanent
 * Human intervention is required to infer intent
 
-This is acceptable for learning.\
-It is not acceptable for production.
+This is acceptable for learning. It is not acceptable for production.
 
 ------------------------------------------------------------------------
 
 ## Conclusion
 
-Week 02 shifted the system from **imperative control**\
-to **declarative, continuously reconciled control**.
+Week 02 shifted the system from **imperative control** to **declarative, continuously reconciled control**.
 
 The intentional conflict demonstrated why: - environment isolation is
 mandatory - platform boundaries must be explicit - GitOps amplifies both

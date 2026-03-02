@@ -2,7 +2,7 @@
 
 > Theme: Foundations & Truth  
 
-## Goal: Make the journal exist as a real, running system.
+## Goal: Make the journal exist as a real, running system
 
 ---
 
@@ -12,6 +12,7 @@
 
 **Description**  
 Create a clean, minimal repository structure that separates:
+
 - documentation (human intent)
 - journal data (app input)
 - application code
@@ -32,6 +33,7 @@ f631734 Add README.md with directory information
 ```
 
 - Tree output of repository root
+
 ```bash
  tree -L 3
 .
@@ -52,42 +54,54 @@ f631734 Add README.md with directory information
 ├── mkdocs.yml
 └── README.md
 ```
+
 ---
 
 ### [x] Define Week 1 learning tasks as data
 
-**Description**  
+#### Description
+
 Write Week 1 tasks in Markdown so they can be consumed by the Ops Journal application. Tasks must not be hardcoded in application logic.
 
-**Acceptance criteria**
+#### Acceptance criteria
+
 - Tasks are expressed as Markdown
 - Checkbox syntax is used
 - Placeholders for evidence exist
 
-**Evidence (required)**
+#### Evidence for Week 1 tasks (required)
+
 - Link to `journal/week-01.md`
+
 [week-01.md](week-01.md)
+
 ---
 
 ### [x] Deploy static Ops Journal renderer to Minikube
 
-**Description**  
+#### Task Description
+
 Run a minimal application in Minikube that reads journal data from the repository and renders it as HTML.
 
-**Acceptance criteria**
+### Acceptance criteria**
+
 - At least one Pod is running
 - Application reads Markdown at runtime
 - UI reflects journal content
 
-**Evidence (required)**
+#### Evidence of completion (required)
+
 - Screenshot of rendered journal
 ![minikube](evidence/week-01/minikube-ui.png)
 - `kubectl get pods` output
+
 ```bash
 kubectl get pods | grep ops-journal
 ops-journal-6c4479d95b-9j594        1/1     Running   0               120m
 ```
+
 - Commit hash adding Kubernetes manifests
+
 ```bash
 aa27831  add kubernetes deployment and service definition
 ```
@@ -98,10 +112,12 @@ aa27831  add kubernetes deployment and service definition
 
 ### [x] Add minimal styling
 
-**Description**  
+#### Description of what we mean by that
+
 Apply basic styling to improve readability. No frameworks required.
 
-**Evidence (optional)**
+#### Evidence (optional)
+
 - Screenshot comparison before / after
 
 ---
@@ -114,12 +130,9 @@ Answer briefly:
 - What felt easier than expected? Minikube was surprisingly willing to cooperate.
 - What did you consciously *not* build? No Go or Express application - this is not part of this exercise.
 
-
-
 ---
 
 ## Notes
 
 This week should feel intentionally small.
 If it feels impressive, too much was built.
-
