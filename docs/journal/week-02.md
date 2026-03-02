@@ -16,8 +16,9 @@ At the beginning of Week 02:
 * There was no GitOps controller
 * No environment separation existed
 
-The goal of this week was not to add features, but to change **how the
-system is operated**.
+## Goal
+
+Not to add features, but to change **how the system is operated**.
 
 ------------------------------------------------------------------------
 
@@ -127,6 +128,8 @@ Once both Applications were active:
 
 Argo CD showed: - successful sync attempts - immediate drift detection -
 continuous reconciliation loops
+
+## Evidence
 
 ![ArgoCD conflict](evidence/week-02/argocd-conflict.png)
 

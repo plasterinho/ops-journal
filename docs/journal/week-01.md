@@ -1,7 +1,8 @@
 # Week 01 – The Journal Exists
 
 > Theme: Foundations & Truth  
-> Goal: Make the journal exist as a real, running system.
+
+## Goal: Make the journal exist as a real, running system.
 
 ---
 
@@ -16,7 +17,8 @@ Create a clean, minimal repository structure that separates:
 - application code
 - deployment manifests
 
-**Evidence (required)**
+## Evidence (required)
+
 - Commit hash introducing the structure
 
 ```bash

@@ -9,7 +9,7 @@ Starting point (end of Week 02):
 * Repository structure centered around apps/
 * Manual reconciliation and structural drift possible
 
-Goal for Week 03:
+## Goal for Week 03:
 
 * Move from “Argo CD is installed” to “GitOps is the control plane”
 * Introduce environment-level ownership
@@ -106,9 +106,13 @@ Meta-observation:
 * Removed per-app Argo CD Application manifests
 * Ensured single ownership of Kubernetes resources
 
+## Evidence
+
+- Local environment as the sole owner of ops-journal deployment
+
 ![Argo CD UI showing local environment as the sole owner of ops-journal deployment with no competing applications, demonstrating single-source-of-truth reconciliation](evidence/week-03/single-instance-local.png)
 
-Outcome:
+### Outcome:
 
 * No reconciliation fights
 * `local` environment became the sole owner
