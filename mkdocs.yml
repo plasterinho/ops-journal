@@ -21,7 +21,6 @@ nav:
           - Week 01 bootstrap: documentation/week-01/runbook.md
 
   - Journal:
-      - Overview: journal/README.md
       - Week 01: journal/week-01.md
       - Week 02: journal/week-02.md
       - Week 03: journal/week-03.md
