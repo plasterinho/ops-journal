@@ -81,12 +81,25 @@ deliberate and controlled.
 ## Evidence
 
 - Validation script passes locally: `All 4 week documents valid.`
+
+Initially the journal files were not conforming to the imposed standard.
+
+![Initial validation process interface showing a failed completion status with red checkmarks, confirming that validation works](evidence/week-05/validation-works.png)
+
+All journal files have been updated to pass the validation.
+
+![successful completion with green checkmark and message "All 4 week documents valid." against a dark terminal background](evidence/week-05/all-journal-files-now-updated.png)
+
 - Pull request created via bot credentials.
 - CI validation executed successfully.
 - PR approved and merged.
-- Dev environment updated automatically via Argo CD.
-- Staging and Prod remained unchanged (as expected due to pinned
+
+![Merge commit showing successful integration of validation script and GitHub Actions workflow into main branch, with commit hash and timestamps](evidence/week-05/merge-commit.png)
+
+- Dev environment updated automatically via Argo CD; Staging and Prod remained unchanged (as expected due to pinned
     tags).
+
+![Dev environment has updated automatically. Staging and Prod remain at the previous version](evidence/week-05/dev-instance-updates.png)
 
 ------------------------------------------------------------------------
 
