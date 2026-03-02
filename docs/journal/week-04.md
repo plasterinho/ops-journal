@@ -19,9 +19,9 @@ The app repository owned both:
 
 That boundary felt wrong.
 
-------------------------------------------------------------------------
+## Goal of the week: introduce Enterprise GitOps mechanism
 
-## The Core Architectural Question
+### The Core Architectural Question
 
 Should the application repository be allowed to mutate its own
 deployment state?
@@ -186,6 +186,9 @@ flowchart TD
     K8s -->|pull| GHCR[GHCR Registry]
 ```
 
+## Evidence (Flowchart screenshot)
+
+![Architecture diagram for week 04 showing system components, their relationships, and data flow. The diagram illustrates the overall infrastructure design and integration points for the week's development work.](evidence/week-04/architecture-diagram.png)
 ------------------------------------------------------------------------
 
 ## Maturity Level After Week 04
