@@ -1,12 +1,25 @@
+#!/usr/bin/env node
+
+/* This script validates that all week documents in the journal directory follow the expected structure:
+ * - Start with a top-level '# Week X' title
+ * - Contain '## Goal' and '## Evidence' sections
+ * - '## Goal' must appear before '## Evidence'
+ * - The filename (week-XX.md) must match the week number in the title
+ */
+
+// --- Imports ---
 const fs = require("fs");
 const path = require("path");
 
+// --- Constants ---
 const CONTENT_DIR = path.join(__dirname, "../docs/journal");
 
+// --- State ---
 let hasError = false;
 let totalFiles = 0;
 let failedFiles = 0;
 
+/* Validates a single week document for structure and consistency. */
 function validateFile(filePath) {
   totalFiles++;
 
