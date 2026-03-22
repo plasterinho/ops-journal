@@ -1,0 +1,13 @@
+# This file lists the direct dependencies of the project.
+# The dependencies are pinned to specific versions to ensure reproducibility and stability.
+# The versions are chosen based on compatibility and stability considerations.
+# The dependencies include:
+# - MkDocs: A static site generator used for documentation.
+# - MkDocs Material: A theme for MkDocs that provides a modern and responsive design.
+# - Kubernetes: A Python client for interacting with Kubernetes clusters.
+
+# Pinned to MkDocs 1.x intentionally.
+# Migration to successor (e.g., Zensical) deferred.
+mkdocs==1.6.1
+mkdocs-material==9.7.1
+kubernetes==35.0.0

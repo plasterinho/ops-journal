@@ -1,5 +1,7 @@
 from reality.kube_client import KubeClient
 from reality.engine import RealityEngine
+# For pretty printing with jq:
+import json
 
 # Hardcoded tasks for testing
 tasks = [
@@ -9,7 +11,7 @@ tasks = [
         "check": {
             "type": "service_exists",
             "name": "ops-journal",
-            "namespace": "default"
+            "namespace": "ops-journal-dev"
         }
     },
     {
@@ -18,7 +20,7 @@ tasks = [
         "check": {
             "type": "ingress_exists",
             "name": "ops-journal",
-            "namespace": "default"
+            "namespace": "ops-journal-dev"
         }
     },
     {
@@ -27,7 +29,7 @@ tasks = [
         "check": {
             "type": "pod_ready",
             "label_selector": "app=ops-journal",
-            "namespace": "default"
+            "namespace": "ops-journal-dev"
         }
     }
 ]
@@ -37,5 +39,5 @@ engine = RealityEngine(kube)
 
 results = engine.evaluate(tasks)
 
-for t in results:
-    print(t)
+# Pretty print results as JSON for easy inspection
+print(json.dumps(results, indent=2))
