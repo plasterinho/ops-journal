@@ -1,5 +1,7 @@
 from reality.kube_client import KubeClient
 from reality.engine import RealityEngine
+from reality.parser import parse_tasks
+
 # For pretty printing with jq:
 import json
 
@@ -40,4 +42,11 @@ engine = RealityEngine(kube)
 results = engine.evaluate(tasks)
 
 # Pretty print results as JSON for easy inspection
+print(json.dumps(results, indent=2))
+
+with open("docs/journal/week-05.md") as f:
+    content = f.read()
+
+tasks = parse_tasks(content)
+results = engine.evaluate(tasks)
 print(json.dumps(results, indent=2))
