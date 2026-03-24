@@ -4,6 +4,9 @@ docs_dir: docs
 theme:
   name: material
 
+plugins:
+    - search
+
 nav:
   - Home: README.md
 
