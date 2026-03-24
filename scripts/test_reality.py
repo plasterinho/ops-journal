@@ -44,6 +44,7 @@ results = engine.evaluate(tasks)
 # Pretty print results as JSON for easy inspection
 print(json.dumps(results, indent=2))
 
+print(json.dumps({"message": "Parsing week-05.md"}))
 with open("docs/journal/week-05.md") as f:
     content = f.read()
 
