@@ -1,6 +1,7 @@
 from reality.kube_client import KubeClient
 from reality.engine import RealityEngine
 from reality.parser import parse_tasks
+from reality.renderer import enrich_markdown
 
 # For pretty printing with jq:
 import json
@@ -39,15 +40,12 @@ tasks = [
 kube = KubeClient()
 engine = RealityEngine(kube)
 
-results = engine.evaluate(tasks)
-
 # Pretty print results as JSON for easy inspection
-print(json.dumps(results, indent=2))
-
 print(json.dumps({"message": "Parsing week-05.md"}))
 with open("docs/journal/week-05.md") as f:
     content = f.read()
 
 tasks = parse_tasks(content)
 results = engine.evaluate(tasks)
-print(json.dumps(results, indent=2))
+# print(json.dumps(results, indent=2))
+print(enrich_markdown(results))
