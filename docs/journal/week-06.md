@@ -20,7 +20,7 @@ This week introduces automated verification of system state. Until now, tasks we
   check:
     type: ingress_exists
     name: ops-journal
-    namespace:ops-journal-dev
+    namespace: ops-journal-dev
 
 - [x] Verify Ops Journal pod readiness
   check:
