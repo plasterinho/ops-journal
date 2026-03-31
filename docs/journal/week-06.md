@@ -28,6 +28,10 @@ This week introduces automated verification of system state. Until now, tasks we
     label_selector: app=ops-journal
     namespace: ops-journal-dev
 
+- [x] Demonstrate invalid check handling
+  check: ingress_exists
+  attention: This check is intentionally wrong - parser should flag INVALID.
+
 ----------
 
 ## Notes
