@@ -1,6 +1,9 @@
 import yaml
 
 def parse_tasks(markdown_text):
+    """Parses a markdown string to extract tasks and their associated checks.
+    Tasks are defined as markdown list items with checkboxes, and checks are
+      defined in indented blocks following the task."""
     lines = markdown_text.splitlines()
     tasks = []
 
@@ -38,12 +41,23 @@ def parse_tasks(markdown_text):
                     if j > i + 1 and current_indent <= base_indent:
                         break
 
-                    check_lines.append(current_line.strip())
+                    check_lines.append(current_line)
                     j += 1
 
                 check_yaml = "\n".join(check_lines)
 
                 parsed = yaml.safe_load(check_yaml)
+                
+                # The check definition can be either directly the check dict or wrapped in a "check:" key
+                if isinstance(parsed, dict):
+                    if "check" in parsed:
+                        task["check"] = parsed["check"]
+                    else:
+                        # allow direct structure without wrapper
+                        task["check"] = parsed
+                else:
+                    task["check"] = None
+
                 task["check"] = parsed.get("check") if parsed else None
 
                 i = j - 1

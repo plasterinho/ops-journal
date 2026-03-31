@@ -46,13 +46,23 @@ class RealityEngine:
             check_def = task.get("check")
 
             # No check -> no verification
-            if not check_def:
+            if check_def is None:
                 results.append({
                     **task,
                     "verification": None
                 })
                 continue
-            
+
+            if not isinstance(check_def, dict):
+                results.append({
+                    **task,
+                    "verification": {
+                        "status": "INVALID",
+                        "message": f"Check is not a dict: {check_def}"
+                    }
+                })
+                continue
+
             check_type = check_def.get("type")
             check_fn = CHECKS.get(check_type)
 
