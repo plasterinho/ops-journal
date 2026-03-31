@@ -109,11 +109,11 @@ Every verification should be a **pluggable check**.
 Example task in markdown:
 
 ```yaml
-- [x] Deploy ingress
+- [x] Deploy ingress for Staging environment
   check:
     type: ingress_exists
     name: ops-journal
-    namespace: default
+    namespace: ops-journal-staging
 ```
 
 The engine translates that to:
@@ -148,7 +148,7 @@ Output structure:
 
 ```json
 {
-    "task": "Deploy ingress",
+    "task": "Deploy ingress for Staging environment",
     "claimed": true,
     "verified": true,
     "details": "Ingress found"
