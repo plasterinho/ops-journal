@@ -106,9 +106,10 @@ Example task in markdown:
 
 ```yaml
 - [x] Deploy ingress
-  check: ingress_exists
-  name: ops-journal
-  namespace: default
+  check:
+    type: ingress_exists
+    name: ops-journal
+    namespace: default
 ```
 
 The engine translates that to:

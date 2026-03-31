@@ -53,6 +53,16 @@ class RealityEngine:
                 })
                 continue
 
+            if "type" not in check_def:
+                results.append({
+                    **task,
+                    "verification": {
+                        "status": "INVALID",
+                        "message": f"Check definition missing 'type': {check_def}"
+                    }
+                })
+                continue
+
             if not isinstance(check_def, dict):
                 results.append({
                     **task,
