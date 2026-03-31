@@ -2,6 +2,8 @@
 
 > theme: "Don't lie to yourself."
 
+## Goals
+
 This week introduces automated verification of system state. Until now, tasks were marked as complete based on intent. Now, the system verifies whether that intent matches actual cluster state.
 
 ----------
