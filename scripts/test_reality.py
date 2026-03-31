@@ -41,8 +41,8 @@ kube = KubeClient()
 engine = RealityEngine(kube)
 
 # Pretty print results as JSON for easy inspection
-print(json.dumps({"message": "Parsing week-05.md"}))
-with open("docs/journal/week-05.md") as f:
+print(json.dumps({"message": "Parsing week-06.md"}))
+with open("docs/journal/week-06.md") as f:
     content = f.read()
 
 tasks = parse_tasks(content)
