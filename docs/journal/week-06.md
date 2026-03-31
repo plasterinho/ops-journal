@@ -299,24 +299,36 @@ This gives us meaningful verification. We could write much, much more, but right
 Example verification output:
 
 ```text
-- [x] Deploy service
-  - ✅ PASS: Service 'ops-journal' exists.
-- [x] Expose ingress
+- [x] Deploy Ops Journal service
+  - ❌ FAIL: Service 'ops-journal' does not exist.
+- [x] Expose Ops Journal via ingress
   - ✅ PASS: Ingress 'ops-journal' exists.
-- [x] Check pod readiness
-  - ✅ PASS: Found 1 ready pods
+- [x] Verify Ops Journal pod readiness
+  - ✅ PASS: Found 1 ready pods.
+- [x] Demonstrate invalid check handling
+  - ⚠️ INVALID: Check definition missing 'type': ingress_exists
+- [x] Deploy ingress
+  - ❌ FAIL: Ingress 'ops-journal' does not exist.
 ```
 
 Testing reality engine:
 
 - Failed check
+
 ![Failed check output showing Reality Engine validation results with red X marks indicating service, ingress, and pod checks that did not verify against the Kubernetes cluster state](evidence/week-06/s01-failed-checks.png)
 
 - Passing check
+
 ![Passing check output showing Reality Engine validation results with three green checkmarks displaying: PASS: Service ops-journal exists, PASS: Ingress ops-journal exists, and PASS: Found 1 ready pods, indicating all Kubernetes cluster verifications succeeded](evidence/week-06/s02-passed-checks.png)
 
 - Using the output to feed into a rendering engine
+
 ![Terminal output showing Reality Engine verification results piped through jq JSON formatter, displaying three successful checks: Service ops-journal exists in namespace ops-journal, Ingress ops-journal exists in namespace ops-journal-dev, and Pod with label selector app=ops-journal is ready in namespace ops-journal-dev. Each result shows status PASS with green checkmarks and detailed messages. The jq output demonstrates how verification data flows from the Reality Engine into downstream rendering systems](evidence/week-06/s03-passed-checks-with-jq.png)
+
+- Final check format
+
+![Terminal output displaying Reality Engine verification results in a tabular format showing four check entries. Each row contains: a checkbox status (marked complete), task description, check type, and verification result with status indicator and message. The checks are: Service ops-journal exists (PASS with green checkmark), Ingress ops-journal exists (PASS with green checkmark), Pod with label app=ops-journal is ready (PASS with green checkmark), and an invalid check demonstrating error handling (INVALID with warning indicator). The output demonstrates the final standardized format that the Reality Engine produces before sending results to the rendering layer, showing how verification data is structured for downstream processing and UI display.](evidence/week-06/s04-final-checks.png)
+)
 
 ----------
 
