@@ -299,3 +299,117 @@ Our Markdown files are no longer just documentation — they describe something 
 ### 2. Checks live where they belong
 
 Checks are defined separately in YAML, which removes parsing ambiguity and keeps responsibilities clear.
+
+## Retrospective
+
+Week 6 introduced a shift from declaring intent to verifying reality. This sounds straightforward, but the implementation exposed a few important lessons.
+
+### 1. Parsing mixed formats is harder than it looks
+
+The initial approach embedded YAML inside Markdown. While convenient on paper, it created ambiguity in parsing:
+
+- indentation mattered in subtle ways  
+- YAML blocks could bleed into other tasks  
+- debugging parser issues was time-consuming  
+
+At some point, more effort was spent handling edge cases than building actual functionality.
+
+The solution was to separate concerns:
+
+- Markdown → human-readable tasks  
+- YAML → machine-readable checks  
+
+This simplified the parser significantly and removed an entire class of bugs.
+
+----------
+
+### 2. Explicit contracts beat convenience
+
+There was a temptation to introduce shorthand checks like:
+
+```yaml
+check: ingress_exists
+```
+
+This would require implicit defaults (name, namespace), which quickly leads to unclear behavior.
+
+Instead, checks now require explicit structure:
+
+```yaml
+check:
+  type: ingress_exists
+  name: ops-journal
+  namespace: ops-journal-dev
+```
+
+This makes the system more predictable and easier to debug.
+
+----------
+
+### 3. Not all failures are equal
+
+A key distinction emerged between different types of failure:
+
+- **PASS** → system state matches expectation  
+- **FAIL** → system state contradicts expectation  
+- **INVALID** → input is malformed  
+
+Handling INVALID separately prevents bad input from being interpreted as a real system failure.
+
+----------
+
+### 4. Separation of concerns makes everything simpler
+
+The system now has clear boundaries:
+
+- Markdown → what is claimed  
+- YAML → how to verify it  
+- Reality Engine → executes checks  
+- Kubernetes → source of truth  
+
+Each component has a single responsibility, which made the system easier to reason about.
+
+----------
+
+### 5. The system can now contradict the user
+
+This is the first point where the system is no longer passive.
+
+A task marked as complete is no longer trusted—it must be verified.
+
+```text
+Git -> Declared state
+System -> Observed state
+```
+
+The gap between them is now visible.
+
+----------
+
+### 6. Small structure decisions matter later
+
+Adding:
+
+- required fields per check  
+- consistent result messages  
+- structured `details` alongside human-readable messages  
+
+seems minor, but these decisions make the system easier to extend without refactoring.
+
+----------
+
+### Summary
+
+This week was less about Kubernetes and more about system design.
+
+The biggest shift was moving from:
+
+```text
+"Does the code run?"
+```
+
+to:
+
+```text
+"Does the system describe and verify reality correctly?"
+```
