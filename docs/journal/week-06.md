@@ -10,27 +10,13 @@ This week introduces automated verification of system state. Until now, tasks we
 
 ## Tasks
 
-- [x] Deploy Ops Journal service
-  check:
-    type: service_exists
-    name: ops-journal
-    namespace: ops-journal
+- [x] Deploy Ops Journal service <!-- id: deploy-service -->
 
-- [x] Expose Ops Journal via ingress
-  check:
-    type: ingress_exists
-    name: ops-journal
-    namespace: ops-journal-dev
+- [x] Expose Ops Journal via ingress <!-- id: expose-ingress -->
 
-- [x] Verify Ops Journal pod readiness
-  check:
-    type: pod_ready
-    label_selector: app=ops-journal
-    namespace: ops-journal-dev
+- [x] Verify Ops Journal pod readiness <!-- id: pod-ready -->
 
-- [x] Demonstrate invalid check handling
-  check: ingress_exists
-  attention: This check is intentionally wrong - parser should flag INVALID.
+- [x] Demonstrate invalid check handling <!-- id: invalid-check -->
 
 ----------
 

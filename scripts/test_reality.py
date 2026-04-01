@@ -2,6 +2,7 @@ from reality.kube_client import KubeClient
 from reality.engine import RealityEngine
 from reality.parser import parse_tasks
 from reality.renderer import enrich_markdown
+import yaml
 
 # For pretty printing with jq:
 import json
@@ -37,6 +38,12 @@ tasks = [
     }
 ]
 
+def load_checks(path):
+    """Loads check definitions from a YAML file."""
+    with open(path, 'r') as f:
+        data = yaml.safe_load(f)
+    return {t["id"]: t["check"] for t in data.get("tasks", [])}
+
 kube = KubeClient()
 engine = RealityEngine(kube)
 
@@ -46,6 +53,16 @@ with open("docs/journal/week-06.md") as f:
     content = f.read()
 
 tasks = parse_tasks(content)
+
+check_map = load_checks("week-06.checks.yaml")
+
+for task in tasks:
+    task_id = task.get("id")
+    task["check"] = check_map.get(task_id)
+
+if task_id and task["check"] is None:
+    print(f"[WARN]: No check found for task ID '{task_id}'")
+
 results = engine.evaluate(tasks)
 # print(json.dumps(results, indent=2))
 print(enrich_markdown(results))
