@@ -54,7 +54,7 @@ with open("docs/journal/week-06.md") as f:
 
 tasks = parse_tasks(content)
 
-check_map = load_checks("week-06.checks.yaml")
+check_map = load_checks("docs/journal/week-06.checks.yaml")
 
 for task in tasks:
     task_id = task.get("id")
