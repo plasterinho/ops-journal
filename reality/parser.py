@@ -1,43 +1,38 @@
 import yaml
+import re
+
+# Regular expression to extract task IDs from HTML comments
+ID_PATTERN = re.compile(r'<!--\s*id:\s*(.*?)\s*-->')
+
+def extract_id(line):
+    """Extracts a task ID from an HTML comment in the line, if present."""
+    match = ID_PATTERN.search(line)
+    return match.group(1) if match else None
 
 def parse_tasks(markdown_text):
-    """Parses a markdown string to extract tasks and their associated checks.
-    Args:
-        markdown_text (str): The markdown string containing task definitions.
-    Returns:
-        list: A list of task dictionaries with 'text', 'claimed', and optional 'check' keys.
+    """Extract tasks from markdown.
     """
     lines = markdown_text.splitlines()
     tasks = []
-    
+
     i = 0
     while i < len(lines):
-        line = lines[i].strip()
+        raw_line = lines[i]
+        line = raw_line.strip()
 
-        if line.startswith("- ["):
-            claimed = "[x]" in line
-            text = line.split("]", 1)[1].strip()
+        if not line.startswith("- ["):
+            i += 1
+            continue
+        
+        claimed = "[x]" in line
+        text = line.split("]", 1)[1].strip()
+        task_id = extract_id(raw_line)
 
-            task = {
-                "text": text,
-                "claimed": claimed,
-            }
-
-            # Check for YAML block
-            if i + 1 < len(lines) and "check:" in lines[i + 1]:
-                j = i + 1
-                check_lines = []
-
-                while j < len(lines) and not lines[j].strip().startswith("  "):
-                    check_lines.append(lines[j].strip())
-                    j += 1
-            
-                check_yaml = "\n".join(check_lines)
-                task["check"] = yaml.safe_load(check_yaml)["check"] if check_yaml else None
-
-                i = j - 1
-
-            tasks.append(task)
+        tasks.append({
+            "text": text,
+            "claimed": claimed,
+            "id": task_id,
+        })
 
         i += 1
 

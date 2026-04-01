@@ -7,6 +7,12 @@ CHECKS = {
     "pod_ready": pod_ready
 }
 
+REQUIRED_FIELDS = {
+    "service_exists": ["name", "namespace"],
+    "ingress_exists": ["name", "namespace"],
+    "pod_ready": ["label_selector", "namespace"]
+}
+
 import time
 
 class RealityEngine:
@@ -46,14 +52,44 @@ class RealityEngine:
             check_def = task.get("check")
 
             # No check -> no verification
-            if not check_def:
+            if check_def is None:
                 results.append({
                     **task,
                     "verification": None
                 })
                 continue
-            
+
+            if "type" not in check_def:
+                results.append({
+                    **task,
+                    "verification": {
+                        "status": "INVALID",
+                        "message": f"Check definition missing 'type': {check_def}"
+                    }
+                })
+                continue
+
+            if not isinstance(check_def, dict):
+                results.append({
+                    **task,
+                    "verification": {
+                        "status": "INVALID",
+                        "message": f"Check is not a dict: {check_def}"
+                    }
+                })
+                continue
+
             check_type = check_def.get("type")
+
+            if not check_type:
+                results.append({
+                    **task,
+                    "verification": {
+                        "status": "INVALID",
+                        "message": f"Check definition missing 'type': {check_def}"
+                    }
+                })
+                continue
             check_fn = CHECKS.get(check_type)
 
             if not check_fn:
@@ -62,6 +98,19 @@ class RealityEngine:
                     "verification": {
                         "status": "UNKNOWN",
                         "message": f"Check type '{check_type}' is not defined."
+                    }
+                })
+                continue
+
+            required = REQUIRED_FIELDS.get(check_type, [])
+            missing = [f for f in required if f not in check_def]
+
+            if missing:
+                results.append({
+                    **task,
+                    "verification": {
+                        "status": "INVALID",
+                        "message": f"Missing required fields: {missing} for '{check_type}' check. Got: {check_def}"
                     }
                 })
                 continue

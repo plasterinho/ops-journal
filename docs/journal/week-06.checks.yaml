@@ -1,0 +1,25 @@
+---
+tasks:
+  - id: deploy-service
+    check:
+      type: service_exists
+      name: ops-journal
+      namespace: ops-journal-dev
+
+  - id: expose-ingress
+    check:
+      type: ingress_exists
+      name: ops-journal
+      namespace: ops-journal-dev
+
+  - id: pod-ready
+    check:
+      type: pod_ready
+      label_selector: app=ops-journal
+      namespace: ops-journal-dev
+
+  - id: invalid-check
+    check:
+      name: ingress_exists
+      namespace: default
+    attention: This check is intentionally missing 'type' field- parser should flag INVALID.
