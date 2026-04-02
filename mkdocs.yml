@@ -29,6 +29,7 @@ nav:
       - Week 03: journal/week-03.md
       - Week 04: journal/week-04.md
       - Week 05: journal/week-05.md
+      - Week 06: journal/week-06.md
 
   - Evidence:
       - Week 01:
@@ -50,3 +51,8 @@ nav:
           - Merging a PR created by the bot: journal/evidence/week-05/merge-commit.png
           - Validation of journal files now works: journal/evidence/week-05/validation-works.png
           - All journal files are valid: journal/evidence/week-05/all-journal-files-now-updated.png
+      - Week 06:
+          - Failed kubernetes checks: journal/evidence/week-06/s01-failed-checks.png
+          - Successful kubernetes checks: journal/evidence/week-06/s02-passed-checks.png
+          - Processing the output with jq: journal/evidence/week-06/s03-passed-checks-with-jq.png
+          - Displaying the checks in a more readable format: journal/evidence/week-06/s04-final-checks.png
