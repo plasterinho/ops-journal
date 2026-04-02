@@ -64,6 +64,7 @@ jobs:
         run: |
           SHORT_SHA=${GITHUB_SHA::7}
           IMAGE_TAG="sha-${SHORT_SHA}"
+          echo ${SHORT_SHA} >> ${GITHUB_ENV}
 
           INFRA_PATH="cluster-config/gitops/apps/ops-journal/overlays/dev/kustomization.yaml"
 
@@ -74,9 +75,9 @@ jobs:
         with:
           token: ${{ secrets.PBOT_INFRA_TOKEN }}
           path: cluster-config
-          commit-message: "chore: deploy ${GITHUB_SHA::7}"
+          commit-message: "chore: deploy sha-${{ env.SHORT_SHA }}"
           branch: deploy-${{ github.sha }}
-          title: "Deploy sha-${{ github.sha }}"
-          body: "Automated deployment of image sha-${{ github.sha }}."
+          title: "Deploy sha-${{ env.SHORT_SHA }}"
+          body: "Automated deployment of image sha-${{ env.SHORT_SHA }}."
           base: main
           
