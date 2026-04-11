@@ -1,6 +1,8 @@
-name: Build and Push Image
+name: Build and Push Images
+
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 on:
   push:
@@ -15,32 +17,43 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    outputs:
+      image_tag: ${{ steps.vars.outputs.image_tag }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Set image tag
+        id: vars
+        run: |
+          SHORT_SHA=${GITHUB_SHA::7}
+          echo "image_tag=sha-${SHORT_SHA}" >> $GITHUB_OUTPUT
+
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
+          registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v6
-        with:
-          images: ghcr.io/${{ github.repository }}
-          tags: |
-            type=sha
-            type=raw,value=latest
-
-      - name: Build and Push
+      # --- Build main app image ---
+      - name: Build and push app image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.image_tag }}
+
+      # --- Build metrics image ---
+      - name: Build and push metrics image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./metrics
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-metrics:${{ steps.vars.outputs.image_tag }}
 
   promote:
     needs: build
@@ -52,24 +65,15 @@ jobs:
         uses: actions/checkout@v5
         with:
           repository: plasterinho/cluster-config
-          token: ${{ secrets.PBOT_INFRA_TOKEN}}
+          token: ${{ secrets.PBOT_INFRA_TOKEN }}
           path: cluster-config
-
-      - name: Debug directory structure
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "Tree:"
-          ls -R
 
       - name: Update image tag
         run: |
-          SHORT_SHA=${GITHUB_SHA::7}
-          IMAGE_TAG="sha-${SHORT_SHA}"
-
-          echo "SHORT_SHA=${SHORT_SHA}" >> $GITHUB_ENV
+          IMAGE_TAG=${{ needs.build.outputs.image_tag }}
 
           INFRA_PATH="cluster-config/gitops/apps/ops-journal/overlays/dev/kustomization.yaml"
+
           sed -i "s/newTag: .*/newTag: ${IMAGE_TAG}/" "${INFRA_PATH}"
 
       - name: Create Pull Request
@@ -77,9 +81,10 @@ jobs:
         with:
           token: ${{ secrets.PBOT_INFRA_TOKEN }}
           path: cluster-config
-          commit-message: "chore: deploy sha-${{ env.SHORT_SHA }}"
+          commit-message: "chore: deploy ${{ needs.build.outputs.image_tag }}"
           branch: deploy-${{ github.sha }}
-          title: "Deploy sha-${{ env.SHORT_SHA }}"
-          body: "Automated deployment of image sha-${{ env.SHORT_SHA }}."
+          title: "Deploy ${{ needs.build.outputs.image_tag }}"
+          body: "Automated deployment of image ${{ needs.build.outputs.image_tag }}."
           base: main
-                
+          labels: deployment
+          
