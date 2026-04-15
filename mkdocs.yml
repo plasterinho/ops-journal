@@ -11,7 +11,6 @@ nav:
   - Home: README.md
 
   - Documentation:
-      - Overview: documentation/README.md
       - Platform fundamentals:
           - Platform control model: documentation/platform-control-model.md
           - GitOps model: documentation/gitops_model.md
@@ -56,3 +55,6 @@ nav:
           - Successful kubernetes checks: journal/evidence/week-06/s02-passed-checks.png
           - Processing the output with jq: journal/evidence/week-06/s03-passed-checks-with-jq.png
           - Displaying the checks in a more readable format: journal/evidence/week-06/s04-final-checks.png
+
+    ## Observability
+  - [Grafana Dashboard](http://grafana.local/d/beb4d6e9-bd94-4edc-a67e-298f9c9bca6b/opsjournal-health?orgId=1&refresh=5s)

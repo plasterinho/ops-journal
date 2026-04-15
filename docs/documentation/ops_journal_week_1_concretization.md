@@ -22,11 +22,13 @@ Nothing more. Nothing less.
 Week 1 is complete **only if all of the following are true**:
 
 ### 1. Git repository exists and is clean
+
 - Repository initialized
 - Clear directory structure
 - At least one meaningful commit (not "initial commit")
 
 ### 2. Learning data is stored as data
+
 - Week 1 tasks are written in Markdown
 - Tasks include:
   - title
@@ -35,16 +37,19 @@ Week 1 is complete **only if all of the following are true**:
 - No hardcoded tasks in application code
 
 ### 3. Ops Journal renders the data
+
 - A running process reads Markdown files
 - HTML is generated dynamically at runtime
 - Changes in Git are reflected after redeploy
 
 ### 4. Application runs in Kubernetes
+
 - At least one Pod running in Minikube
 - Exposed via a Kubernetes Service
 - Accessible via `kubectl port-forward`
 
 ### 5. You can point to it
+
 - A URL (even localhost via port-forward) is documented
 - A screenshot exists as evidence
 
@@ -73,14 +78,17 @@ If any of these appear, Week 1 has failed.
 You may choose **one** from each category:
 
 ### Language / Runtime
+
 - Go (preferred)
 - Anything else you already know well
 
 ### Rendering approach
+
 - Server-side HTML templates
 - Markdown → HTML rendering
 
 ### Styling
+
 - Plain HTML
 - Minimal embedded CSS
 
@@ -90,7 +98,7 @@ Clean > clever.
 
 ## Minimal Repository Structure (example)
 
-```
+```text
 ops-journal/
 ├── journal/
 │   └── week-01.md
@@ -134,4 +142,3 @@ This reflection is part of the learning artifact.
 Week 1 should feel *almost disappointingly simple*.
 
 If it feels impressive, you probably did too much.
-

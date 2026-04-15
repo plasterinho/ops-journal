@@ -5,6 +5,7 @@
 Ops Journal is a deliberately simple, honest system for tracking a platform‑engineering learning journey. It treats **Git as the source of truth**, Kubernetes as the execution environment, and the application itself as a lightweight **control‑plane UI** over real infrastructure and workflows.
 
 This repository documents both:
+
 - the **learning track** (12 weeks of platform‑engineering topics), and
 - the **system that visualizes and validates that learning**.
 
@@ -22,6 +23,7 @@ Most learning projects fail for one of two reasons:
 Ops Journal sits in between.
 
 It is:
+
 - interactive, but not CRUD‑heavy
 - honest, but not slow
 - boring by design, but extensible by intent
@@ -34,18 +36,23 @@ If something cannot be validated against reality, it is treated as untrusted.
 ## Core principles
 
 ### 1. Git is the source of truth
+
 All learning progress, tasks, and reflections live in Git. The application reads from Git and reacts to Git workflows. Runtime state must converge toward Git, not replace it.
 
 ### 2. Interaction ≠ mutation
+
 User interaction triggers **workflows** (PRs, checks, validations), not silent state changes. This mirrors real platform workflows such as GitOps, Terraform, and Argo CD.
 
 ### 3. Reality beats intention
+
 Where possible, tasks are validated against real system state (Kubernetes APIs, CI status, service reachability). Manual claims are secondary to observable facts.
 
 ### 4. Boring first, clever later
+
 Markdown + Git + a renderer is the baseline. Any additional complexity must clearly outperform that baseline, or it does not belong.
 
 ### 5. The platform dogfoods itself
+
 Ops Journal runs on the same platform concepts it is used to learn. Policies, observability, delivery mechanisms, and failures apply to the journal itself.
 
 ---
@@ -53,12 +60,14 @@ Ops Journal runs on the same platform concepts it is used to learn. Policies, ob
 ## What this is (and is not)
 
 ### This *is*
+
 - A GitOps‑native learning tracker
 - A lightweight internal platform UI
 - A record of real, inspectable engineering work
 - A foundation for future platform abstractions
 
 ### This is *not*
+
 - A generic task‑tracking SaaS
 - A productivity app
 - A database‑first system
@@ -68,7 +77,7 @@ Ops Journal runs on the same platform concepts it is used to learn. Policies, ob
 
 ## High‑level architecture
 
-```
+```text
 Git Repository
   ├── Learning definitions (weeks, tasks)
   ├── Evidence (screenshots, notes)
@@ -80,6 +89,7 @@ Git Repository
 ```
 
 The application:
+
 - renders learning state from Git
 - exposes it via a clean web UI
 - triggers Git workflows for interaction
@@ -97,6 +107,7 @@ The learning journey is structured as a **12‑week roadmap**, grouped into four
 4. Platform Thinking
 
 Each week contains:
+
 - core tasks (must‑do)
 - stretch tasks (optional)
 - evidence requirements
@@ -161,4 +172,3 @@ Polish is optional. Truth is not.
 
 This repository is a living system.
 Expect evolution, refactoring, and occasional intentional destruction in the name of learning.
-

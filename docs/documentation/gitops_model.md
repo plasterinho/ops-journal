@@ -12,10 +12,10 @@ that should remain true as the platform evolves.
 
 ### Git is the source of truth
 
--   Git defines the desired state of the system
--   The cluster is expected to converge to what is declared in Git
--   Git history is the audit log
--   Rollbacks are performed by reverting commits
+- Git defines the desired state of the system
+- The cluster is expected to converge to what is declared in Git
+- Git history is the audit log
+- Rollbacks are performed by reverting commits
 
 If something is not represented in Git, it is not authoritative.
 
@@ -23,11 +23,11 @@ If something is not represented in Git, it is not authoritative.
 
 ### Argo CD is the continuous delivery controller
 
--   Argo CD continuously reconciles desired state (Git) with actual
+- Argo CD continuously reconciles desired state (Git) with actual
     state (cluster)
--   Argo CD is **not** on the request path
--   Application availability does not depend on Argo CD being up
--   Enforcement of desired state does depend on Argo CD being up
+- Argo CD is **not** on the request path
+- Application availability does not depend on Argo CD being up
+- Enforcement of desired state does depend on Argo CD being up
 
 Argo CD does not decide *what* should run. It only enforces what Git
 declares.
@@ -36,10 +36,10 @@ declares.
 
 ### Manual changes are temporary by design
 
--   `kubectl apply`, `kubectl scale`, and ad‑hoc edits are not
+- `kubectl apply`, `kubectl scale`, and ad‑hoc edits are not
     authoritative
--   Manual changes will be reverted when Argo CD reconciles
--   Manual intervention is acceptable only for debugging or emergency
+- Manual changes will be reverted when Argo CD reconciles
+- Manual intervention is acceptable only for debugging or emergency
     containment
 
 Sustainable changes must go through Git.
@@ -50,10 +50,10 @@ Sustainable changes must go through Git.
 
 ### One Application owns a resource
 
--   A Kubernetes resource must be owned by exactly one Argo CD
+- A Kubernetes resource must be owned by exactly one Argo CD
     Application
--   Multiple Applications must never manage the same resource
--   GitOps does not resolve ownership conflicts
+- Multiple Applications must never manage the same resource
+- GitOps does not resolve ownership conflicts
 
 Ownership conflicts result in: - continuous reconciliation loops -
 OutOfSync states - non‑deterministic cluster behavior
@@ -64,11 +64,11 @@ These are architectural errors, not tooling failures.
 
 ### Environments are isolation boundaries
 
--   Environments are not labels or overlays alone
--   Environments must be isolated by:
-    -   namespace, or
-    -   cluster
--   Sharing a namespace across environments is unsafe
+- Environments are not labels or overlays alone
+- Environments must be isolated by:
+  - namespace, or
+  - cluster
+- Sharing a namespace across environments is unsafe
 
 GitOps will surface environment conflicts, not prevent them.
 
@@ -78,15 +78,15 @@ GitOps will surface environment conflicts, not prevent them.
 
 ### Deployment
 
--   A deployment is a Git commit
--   Changing desired state in Git triggers reconciliation
--   Argo CD applies the change automatically
+- A deployment is a Git commit
+- Changing desired state in Git triggers reconciliation
+- Argo CD applies the change automatically
 
 ### Rollback
 
--   A rollback is a Git revert
--   Reverting a commit restores the previous desired state
--   Argo CD enforces the reverted state automatically
+- A rollback is a Git revert
+- Reverting a commit restores the previous desired state
+- Argo CD enforces the reverted state automatically
 
 UI‑based rollbacks are considered temporary and must be followed by Git
 changes.
@@ -97,14 +97,14 @@ changes.
 
 ### Git unavailable
 
--   The cluster continues running with the last known desired state
--   No new deployments or rollbacks are possible
+- The cluster continues running with the last known desired state
+- No new deployments or rollbacks are possible
 
 ### Argo CD unavailable
 
--   Workloads continue running
--   Desired state is no longer enforced
--   Manual changes persist until Argo CD recovers
+- Workloads continue running
+- Desired state is no longer enforced
+- Manual changes persist until Argo CD recovers
 
 ------------------------------------------------------------------------
 
@@ -120,8 +120,8 @@ GitOps enforces consistency, not correctness.
 
 ## Summary
 
--   Git defines intent
--   Argo CD enforces intent
--   Architecture defines safety
--   Isolation is mandatory
--   Tooling makes problems visible, it does not hide them
+- Git defines intent
+- Argo CD enforces intent
+- Architecture defines safety
+- Isolation is mandatory
+- Tooling makes problems visible, it does not hide them
