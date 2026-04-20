@@ -2,18 +2,20 @@
 
 ## Goals
 
-We have an automated verification of system state. This week we make it all controlled by GitOps.
+We have automated verification of system state. This week, we bring observability under GitOps control while preserving those checks.
 
 ## Tasks
 
 - [x] Prometheus is deployed from Git <!-- id: deploy-prometheus -->
 - [x] Grafana is deployed from Git <!-- id: deploy-grafana -->
-- [x] The Prometheus datasource, the Observability dashboard and all its panels are configured in Git <!-- id: deploy-dashboards -->
-- [x] Additional task: ClusterConfig has a bootstrap loaded directly from Git - no need to clone the repository. <!-- id: bootstrap -->
+- [x] The Prometheus datasource, the Observability dashboard, and all its panels are configured in Git <!-- id: deploy-dashboards -->
+- [ ] System checks from Week 6 are exposed as Prometheus metrics <!-- id: system-metrics -->
+- [x] Additional task: ClusterConfig includes a bootstrap loaded directly from Git, with no need to clone the repository <!-- id: bootstrap -->
 
 ## Evidence
 
-Grafana dashboard with working panels
+Grafana dashboard with working panels (including metrics reflecting system state and checks)
+
 ![Grafana dashboard](evidence/week-07/grafana-dashboard.png)
 
 ## Summary

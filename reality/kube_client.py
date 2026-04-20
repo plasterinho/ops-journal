@@ -1,11 +1,16 @@
 # Imports
 from kubernetes import client, config
 from kubernetes.client.exceptions import ApiException
+from kubernetes.config.config_exception import ConfigException
 
 class KubeClient:
     def __init__(self):
-        # Load the kubeconfig from the default location
-        config.load_kube_config()
+        # Prefer in-cluster credentials for deployed workloads and fall back
+        # to the local kubeconfig for development.
+        try:
+            config.load_incluster_config()
+        except ConfigException:
+            config.load_kube_config()
 
         # API groups
         self.core = client.CoreV1Api()
