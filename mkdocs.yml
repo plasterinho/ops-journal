@@ -11,7 +11,6 @@ nav:
   - Home: README.md
 
   - Documentation:
-      - Overview: documentation/README.md
       - Platform fundamentals:
           - Platform control model: documentation/platform-control-model.md
           - GitOps model: documentation/gitops_model.md
@@ -30,6 +29,7 @@ nav:
       - Week 04: journal/week-04.md
       - Week 05: journal/week-05.md
       - Week 06: journal/week-06.md
+      - Week 07: journal/week-07.md
 
   - Evidence:
       - Week 01:
@@ -56,3 +56,5 @@ nav:
           - Successful kubernetes checks: journal/evidence/week-06/s02-passed-checks.png
           - Processing the output with jq: journal/evidence/week-06/s03-passed-checks-with-jq.png
           - Displaying the checks in a more readable format: journal/evidence/week-06/s04-final-checks.png
+      - Week 07:
+          - Grafana dashboard: journal/evidence/week-07/grafana-dashboard.png

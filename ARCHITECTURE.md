@@ -13,9 +13,9 @@ The system is composed of:
 
 The deployment model is fully declarative and pull-based.
 
-# High-Level flow
+## High-Level flow
 
-```
+```text
 Developer → git push
               ↓
         GitHub Actions (CI)
@@ -35,9 +35,9 @@ Developer → git push
          New Pod rollout
 ```
 
-# Components
+## Components
 
-## 1. Application Layer
+### 1. Application Layer
 
 Repository contains:
 
@@ -47,7 +47,7 @@ Repository contains:
 
 The Docker image is built in CI only. No local or cluster-side builds occur.
 
-## 2. CI Layer (GitHub Actions)
+### 2. CI Layer (GitHub Actions)
 
 The pipeline:
 
@@ -70,11 +70,11 @@ permissions:
 
 The workflow avoids infinite loops by skipping execution when triggered by `github-actions[bot]`.
 
-## 3. Artifact Layer (GHCR)
+### 3. Artifact Layer (GHCR)
 
 Images are stored at:
 
-```
+```text
 ghcr.io/plasterinho/ops-journal
 ```
 
@@ -86,11 +86,11 @@ Tagging strategy:
 
 This guarantees traceability between commit and running workload.
 
-## 4. Configuration Layer (Kustomize)
+### 4. Configuration Layer (Kustomize)
 
 Structure:
 
-```
+```text
 workloads/
   ops-journal/
     base/
@@ -109,7 +109,7 @@ images:
     newTag: sha-<short-sha>
 ```
 
-## 5. Gitops Layer (ArgoCD)
+### 5. Gitops Layer (ArgoCD)
 
 ArgoCD:
 
@@ -123,7 +123,7 @@ Argo reconciles desired state from Git with cluster state continuously.
 
 There is no imperative deployment step.
 
-## 6. Runtime Layer (Kubernetes/Minikube)
+### 6. Runtime Layer (Kubernetes/Minikube)
 
 Cluster characteristics:
 
@@ -134,36 +134,36 @@ Cluster characteristics:
 
 Deployment updates are triggered exclusively by manifest changes in Git.
 
-# Deployment Model
+## Deployment Model
 
 This implementation currently represents **Continuous Deployment**:
 
 * Every commit to `main` results in:
-    * New image build
-    * Automatic manifest update
-    * Automatic cluster rollout
+  * New image build
+  * Automatic manifest update
+  * Automatic cluster rollout
 
 There is no approval gate at this stage.
 
-# Architectural Properties
+## Architectural Properties
 
-## Deterministic
+### Deterministic
 
 Each deployment corresponds to an immutable image tag derived from a commit SHA.
 
-## Pull-Based
+### Pull-Based
 
 Kubernetes pulls images from a registry. No image builds occur on cluster nodes.
 
-## Declarative
+### Declarative
 
 Cluster state is fully defined in Git.
 
-## Self-Mutating Repository
+### Self-Mutating Repository
 
 The CI pipeline updates deployment manifests within the same repository. This will be refactored in future iterations to separate application and infrastructure concerns.
 
-# Known Limitations
+## Known Limitations
 
 * Application and infrastructure definitions reside in the same repository.
 * CI mutates deployment manifests directly.
@@ -172,7 +172,7 @@ The CI pipeline updates deployment manifests within the same repository. This wi
 
 These limitations will be addressed in subsequent architectural evolution phases.
 
-# Current Maturity Level
+## Current Maturity Level
 
 This system represents:
 
@@ -183,7 +183,7 @@ This system represents:
 
 It serves as the baseline architecture for further enterprise-grade refinement.
 
-## System Diagram
+### System Diagram
 
 ```mermaid
 flowchart TD
