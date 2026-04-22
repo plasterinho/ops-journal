@@ -50,7 +50,8 @@ jobs:
       - name: Build and push metrics image
         uses: docker/build-push-action@v6
         with:
-          context: ./metrics
+          context: .
+          file: ./metrics/Dockerfile
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-metrics:${{ steps.vars.outputs.image_tag }}
