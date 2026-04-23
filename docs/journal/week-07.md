@@ -9,7 +9,7 @@ We have automated verification of system state. This week, we bring observabilit
 - [x] Prometheus is deployed from Git <!-- id: deploy-prometheus -->
 - [x] Grafana is deployed from Git <!-- id: deploy-grafana -->
 - [x] The Prometheus datasource, the Observability dashboard, and all its panels are configured in Git <!-- id: deploy-dashboards -->
-- [ ] System checks from Week 6 are exposed as Prometheus metrics <!-- id: system-metrics -->
+- [x] System checks from Week 6 are exposed as Prometheus metrics <!-- id: system-metrics -->
 - [x] Additional task: ClusterConfig includes a bootstrap loaded directly from Git, with no need to clone the repository <!-- id: bootstrap -->
 
 ## Evidence
@@ -17,6 +17,8 @@ We have automated verification of system state. This week, we bring observabilit
 Grafana dashboard with working panels (including metrics reflecting system state and checks)
 
 ![Grafana dashboard](evidence/week-07/grafana-dashboard.png)
+
+Prometheus graph confirming that the exported reality-check metrics are present and queryable was captured during validation, but the dedicated screenshot has not been committed to `docs/journal/evidence/week-07/` yet.
 
 ## Summary
 
@@ -26,6 +28,7 @@ The core achievement is that observability is now fully declarative:
 
 - Prometheus deployment is managed from Git  
 - Grafana deployment, datasources, dashboards, and panels are all defined in Git  
+- Week 6 reality checks are exported as custom Prometheus metrics  
 - ArgoCD continuously reconciles the desired state  
 
 In parallel, bootstrap was refined into a repeatable entry point: a minimal script that installs ArgoCD and hands over control to GitOps via a root application.
@@ -90,7 +93,42 @@ This enables dashboards to work without any manual wiring.
 
 ---
 
-### 4. ArgoCD bootstrap and root application
+### 4. Reality-engine checks exported as custom metrics
+
+The system checks introduced in Week 6 were extended into Prometheus metrics by reusing the existing Python-based reality engine.
+
+The first implementation lived inside the main `ops-journal` image:
+
+- a small Python exporter loaded the Week 6 checks file
+- the exporter evaluated those checks through `RealityEngine`
+- results were exposed as Prometheus gauges such as total checks by status, per-task status, cache age, and scrape success
+
+This was the key conceptual step:
+
+reality verification → machine-readable metrics → dashboardable platform state
+
+---
+
+### 5. Metrics service moved into its own container
+
+Running the exporter inside the application image worked as a first proof of concept, but it mixed static-site serving with Python runtime concerns.
+
+To make the deployment cleaner, the exporter was moved into a dedicated `ops-journal-metrics` container:
+
+- the main container remained responsible for serving the MkDocs site through NGINX
+- the new metrics container ran only the Python exporter
+- the Kubernetes service exposed the metrics endpoint for Prometheus scraping
+
+This separation made the deployment easier to reason about and aligned better with the single-purpose container model.
+
+The split across repositories became clearer as well:
+
+- `ops-journal` owns the exporter code, metrics image, and image build workflow
+- `cluster-config` owns the deployment, service wiring, probes, and Prometheus scrape path
+
+---
+
+### 6. ArgoCD bootstrap and root application
 
 Bootstrap flow:
 
@@ -108,7 +146,7 @@ ArgoCD → owns the platform
 
 ---
 
-### 5. Bootstrap reliability improvements
+### 7. Bootstrap reliability improvements
 
 Enhancements included:
 
@@ -203,13 +241,27 @@ Final approach:
 
 ---
 
-### 5. Metrics limitations
+### 5. Custom metrics rollout issues
 
-Available metrics were limited to NGINX exporter (no status codes or latency).
+The custom metrics path worked conceptually, but a few deployment details blocked them from showing up in Prometheus at first.
 
-Implication:
+Problems included:
 
-SLOs are currently infrastructure-level, not request-level
+- the first dedicated metrics image was missing Python dependencies needed by the exporter
+- the metrics image had to be built with the correct Dockerfile path and repository root as build context so it could copy both `metrics/` and `reality/`
+- after introducing the separate metrics container, the Kubernetes service still exposed port `9113 -> 9113`, so Prometheus kept scraping the NGINX exporter instead of the new Python exporter on port `8000`
+- readiness and liveness probes had to be aligned with the actual metrics endpoint
+
+Resolution:
+
+- add a dedicated `metrics/requirements.txt`
+- build the metrics image from `./metrics/Dockerfile` with `context: .`
+- keep the service port at `9113` for Prometheus, but retarget it to container port `8000`
+- add probes on `/metrics` to make failures visible earlier
+
+Key lesson:
+
+When a scrape target exists but the wrong container answers, the problem looks like “metrics are missing” even though Prometheus itself is working correctly
 
 ---
 
@@ -221,6 +273,7 @@ The platform now supports:
 - ArgoCD-managed application lifecycle
 - fully declarative observability stack
 - Grafana dashboards and datasources from Git
+- custom Prometheus metrics generated from the reality engine
 - basic SLO definition
 
 All core components are:
@@ -253,11 +306,11 @@ Key shifts:
 
 Natural continuation areas:
 
-- richer SLOs (status codes, latency)
+- richer SLOs (status codes, latency, and alert thresholds)
 - alerting (Alertmanager)
 - environment separation (dev/prod overlays)
 - ArgoCD self-management (Argo managing its own install)
-- improving local networking or moving to a more realistic environment
+- adding a committed Prometheus graph screenshot to the Week 07 evidence set
 
 ---
 
@@ -272,8 +325,4 @@ This week involved a lot of friction:
 
 But those issues exposed the real constraints of operating a platform.
 
-The outcome is significant:
-
-The system is now coherent, reproducible, and largely self-managing
-
-That’s a solid foundation to build on.
+The outcome is significant: the system is now coherent, reproducible, and largely self-managing.
