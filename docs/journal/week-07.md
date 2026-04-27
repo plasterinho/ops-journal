@@ -18,7 +18,13 @@ Grafana dashboard with working panels (including metrics reflecting system state
 
 ![Grafana dashboard](evidence/week-07/grafana-dashboard.png)
 
-Prometheus graph confirming that the exported reality-check metrics are present and queryable was captured during validation, but the dedicated screenshot has not been committed to `docs/journal/evidence/week-07/` yet.
+Prometheus graph confirming that the exported reality-check metrics are present and queryable
+
+![Prometheus Graph](evidence/week-07/prometheus-ops_journal_reality_cache_ttl_seconds.png)
+
+Prometheus metrics targets discovered in the `dev` environment
+
+![Prometheus targets](evidence/week-07/prometheus-metrics.png)
 
 ## Summary
 
