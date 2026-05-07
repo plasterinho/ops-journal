@@ -14,8 +14,12 @@ STATUS_VALUES = ("PASS", "FAIL", "INVALID", "UNKNOWN")
 
 
 def load_tasks(path):
-    with open(path, "r", encoding="utf-8") as handle:
-        data = yaml.safe_load(handle) or {}
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            data = yaml.safe_load(handle) or {}
+    except Exception as e:
+        print(f"Error loading tasks from {path}: {e}")
+        data = {}
     return data.get("tasks", [])
 
 
@@ -61,7 +65,13 @@ class RealityChecksCollector:
         try:
             engine = self._get_engine()
             tasks = load_tasks(self.checks_file)
-            results = engine.evaluate(tasks)
+            try:
+                results = engine.evaluate(tasks)
+            except Exception as e:
+                import traceback
+                print(f"Error during reality engine evaluation: {e}")
+                traceback.print_exc()
+
             scrape_success.add_metric([], 1.0)
             cache_age.add_metric([], 0.0 if engine.last_run == 0 else max(0.0, time.time() - engine.last_run))
 
@@ -77,7 +87,8 @@ class RealityChecksCollector:
                 task_id = task.get("id", "unknown")
 
                 check_status.add_metric([task_id, check_type, status], 1.0)
-        except Exception:
+        except Exception as e:
+            print(f"Error occurred while evaluating tasks: {e}")
             scrape_success.add_metric([], 0.0)
             cache_age.add_metric([], 0.0)
             status_counts["UNKNOWN"] += 1
@@ -93,6 +104,8 @@ class RealityChecksCollector:
 
 
 if __name__ == "__main__":
+    print("=== METRICS SERVER START ===")
+    print(f"Checks file exists: {os.path.exists(DEFAULT_CHECKS_FILE)}")
     checks_file = os.getenv("OPS_JOURNAL_CHECKS_FILE", DEFAULT_CHECKS_FILE)
     port = int(os.getenv("PORT", str(DEFAULT_PORT)))
     ttl = int(os.getenv("OPS_JOURNAL_CACHE_TTL", "30"))

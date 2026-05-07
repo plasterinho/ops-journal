@@ -28,6 +28,7 @@ class RealityEngine:
         if self.cache and (current_time - self.last_run) < self.ttl:
             return self.cache
         
+        print(f"Running {len(tasks)} tasks")
         results = self._run_checks(tasks)
         self.cache = results
         self.last_run = current_time
