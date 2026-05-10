@@ -1,5 +1,3 @@
 PyYAML==6.0.3
 kubernetes==35.0.0
 prometheus-client
-logging
-wsgiref.simple_server
