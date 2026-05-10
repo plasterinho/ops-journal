@@ -3,6 +3,12 @@ from kubernetes import client, config
 from kubernetes.client.exceptions import ApiException
 from kubernetes.config.config_exception import ConfigException
 
+# The KubeClient class provides a simple interface for interacting with the Kubernetes API.
+# It abstracts away the details of authentication and API calls, allowing
+# other parts of the code to easily retrieve information about Kubernetes
+# resources such as services, pods, and ingresses. The client is designed
+# to work both in-cluster (when deployed as a pod) and locally (for development
+# purposes) by automatically selecting the appropriate configuration method.
 class KubeClient:
     def __init__(self):
         # Prefer in-cluster credentials for deployed workloads and fall back
