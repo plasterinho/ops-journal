@@ -1,3 +1,8 @@
+# This module provides functionality to parse tasks from markdown text.
+# It defines a function `parse_tasks` that takes a markdown string as input
+# and extracts tasks from it. Each task is represented as a dictionary
+# containing the task text, whether it is claimed (completed), and an optional
+# task ID extracted from HTML comments in the markdown.
 import yaml
 import re
 

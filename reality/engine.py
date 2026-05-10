@@ -1,12 +1,18 @@
 # Import all checks from the checks module and make them available in the CHECKS dictionary
 from reality.checks import service_exists, ingress_exists, pod_ready
 
+# A dictionary mapping check names to their corresponding functions.
+# This allows the RealityEngine to look up and execute checks by name when evaluating tasks.
 CHECKS = {
     "service_exists": service_exists,
     "ingress_exists": ingress_exists,
     "pod_ready": pod_ready
 }
 
+# A dictionary defining the required fields for each check type.
+# This is used to validate the check definitions before running them.
+# If a check definition is missing any of the required fields, it will be marked as INVALID
+# with an appropriate error message.
 REQUIRED_FIELDS = {
     "service_exists": ["name", "namespace"],
     "ingress_exists": ["name", "namespace"],
@@ -15,6 +21,7 @@ REQUIRED_FIELDS = {
 
 import time
 
+# The RealityEngine class is responsible for evaluating reality checks based on tasks parsed from markdown.
 class RealityEngine:
     def __init__(self, kube_client, ttl=30):
         self.kube = kube_client
